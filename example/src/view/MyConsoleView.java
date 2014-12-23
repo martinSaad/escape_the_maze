@@ -34,8 +34,7 @@ public class MyConsoleView extends Observable implements View {
 
 	@Override
 	public void displayCurrentState() {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
