@@ -74,6 +74,7 @@ public class UserCommands {
 		@Override
 		public Model doCommand(Model model, String args) {
 			((MyModel)model).setT(new Thread(new TaskRunnable(model)));
+			System.out.println("////////////Algo Thread is alive//////////////////");
 			((MyModel)model).doTask();
 			//((MyModel)model).getT().start();
 			return model;

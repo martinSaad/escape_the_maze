@@ -1,8 +1,10 @@
 package model.domains;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.Stack;
 
 import model.Algorithm.Action;
 import model.Algorithm.SearchDomain;
@@ -172,6 +174,68 @@ public class MazeDomain implements SearchDomain{
 		
 		return allNeighbors;
 	}
+	
+	public HashMap<Action, State> getAllPossibleMoves2(State state) // this function return all the possible neighbors of state
+	{
+		MazeState current = (MazeState)state;
+		int spesificRow = current.getX();
+		int specificColumn = current.getY();
+		
+		HashMap<Action, State> allNeighbors = new HashMap<Action, State>();
+	
+		MazeState tmpUp = new MazeState();
+		MazeState tmpDown = new MazeState();
+		MazeState tmpRight = new MazeState();
+		MazeState tmpLeft = new MazeState();
+		//all possible actions: right, left, up, down
+		
+		for(int i=spesificRow-1; i<=spesificRow +1; i++)
+		{
+			for(int j=specificColumn-1; j<=specificColumn +1; j++)
+			{
+				if((this.matrix[i][j] == 0) && (i!=spesificRow || j!=specificColumn))
+				{
+					if(spesificRow<i && specificColumn==j)
+					{
+						tmpDown.setX(i);
+						tmpDown.setY(j);
+						tmpDown.setPrice(1);
+						allNeighbors.put(moveDown,tmpDown);
+					}
+					
+					else if(spesificRow>i && specificColumn==j)
+					{
+						tmpUp.setX(i);
+						tmpUp.setY(j);
+						tmpUp.setPrice(1);
+						allNeighbors.put(moveUp,tmpUp);
+					}
+					
+					else if(specificColumn<j && spesificRow==i)
+					{
+						tmpRight.setX(i);
+						tmpRight.setY(j);
+						tmpRight.setPrice(1);
+						allNeighbors.put(moveRight,tmpRight);
+					}
+					
+					else if(specificColumn>j && spesificRow==i)
+					{
+						tmpLeft.setX(i);
+						tmpLeft.setY(j);
+						tmpLeft.setPrice(1);
+						allNeighbors.put(moveLeft,tmpLeft);
+					}
+						
+					
+					
+				}
+			}
+		}
+		
+		return allNeighbors;
+	}
+
 
 	
 	
@@ -206,9 +270,12 @@ public class MazeDomain implements SearchDomain{
 		
 		setRows(tmpRows);
 		setColumns(tmpColumns); 
-		this.matrix = new int[tmpRows][tmpColumns];
+		matrix = new int[tmpRows][tmpColumns];
 		
-		for(int i=0;i<this.matrix.length;i++)
+		generateMaze();
+		
+		
+		/*	for(int i=0;i<this.matrix.length;i++)
 		{
 			for(int j=0;j<this.matrix[i].length;j++)
 			{
@@ -220,6 +287,113 @@ public class MazeDomain implements SearchDomain{
 		}
 		
 		this.randomBoardValues();
+		*/
+	}
+	
+	public void intializeMaze(){
+		for(int i=0;i<matrix.length;i++)
+		{
+			for(int j=0;j<matrix[i].length;j++)
+			{
+				if(i==0 || i==matrix.length-1)
+					matrix[i][j] = -1;
+
+				else if(j==0 || j==matrix[i].length-1)
+					matrix[i][j] = -1;
+				
+				else
+					matrix[i][j] = 0;
+			}
+		}
+	}
+	
+	public ArrayList<MazeState> getNeighbors(MazeState state){
+		ArrayList<MazeState> neighbors = new ArrayList<MazeState>();
+		//check up
+		if (matrix[state.getX()-1][state.getY()] == 0)
+			neighbors.add(new MazeState(state.getX()-1, state.getY()));
+		//check down
+		if (matrix[state.getX()+1][state.getY()] == 0)
+			neighbors.add(new MazeState(state.getX()+1, state.getY()));
+		//check right
+		if (matrix[state.getX()][state.getY()+1] == 0)
+			neighbors.add(new MazeState(state.getX(), state.getY()+1));
+		//check left
+		if (matrix[state.getX()][state.getY()-1] == 0)
+			neighbors.add(new MazeState(state.getX(), state.getY()-1));
+		
+		return neighbors;
+	}
+	
+	public void generateMaze(){
+		intializeMaze();
+		Stack cellStack = new Stack<MazeState>();
+		int totalCells = (rows-2)*(columns-2);
+		Random random = new Random();
+		MazeState currentCell = new MazeState(random.nextInt(rows-2)+1, random.nextInt(columns-2)+1);
+		matrix[currentCell.getX()][currentCell.getY()]=1;
+		int visitedCells = 1;
+		while (visitedCells<totalCells){
+			HashMap<Action, State>  neighbors = new HashMap<Action, State>();
+			neighbors = getAllPossibleMoves2(currentCell);
+			if (neighbors.size()!=0){
+				int[] r = new int[4];
+				r = randomAction(neighbors);
+				int rand = 1;
+				do{
+					rand = random.nextInt(4);
+				}while(r[rand]==0);
+				/*
+				 * 1 = moveUp
+				 * 2 = moveDown
+				 * 3 = moveRight
+				 * 4 = moveLeft
+				 */
+				MazeState randomCell = null;
+				HashMap<Action, State> backTrace = new HashMap<Action, State>();
+				if (r[rand] == 1){
+					randomCell = new MazeState(currentCell.getX()-1, currentCell.getY());
+					backTrace.put(moveUp, randomCell);
+				}
+				else if (r[rand] == 2){
+					randomCell = new MazeState(currentCell.getX()+1, currentCell.getY());
+					backTrace.put(moveDown, randomCell);
+				}
+				else if (r[rand] == 3){
+					randomCell = new MazeState(currentCell.getX(), currentCell.getY()+1);
+					backTrace.put(moveRight, randomCell);
+				}
+				else if (r[rand] == 4){
+					randomCell = new MazeState(currentCell.getX(), currentCell.getY()-1);
+					backTrace.put(moveLeft, randomCell);
+				}
+				
+				matrix[randomCell.getX()][randomCell.getY()] = 1;
+				cellStack.push(currentCell);
+				currentCell = randomCell;
+				visitedCells++;				
+			}
+			else{
+				currentCell = (MazeState) cellStack.pop();
+			}
+		}
+	}
+	
+	public int[] randomAction(HashMap<Action, State> neighbors){
+		int[] array = new int[4];
+		if (neighbors.get(moveUp) != null){
+			array[0] = 1;
+			}
+		if (neighbors.get(moveDown) != null){
+				array[1] = 2;
+			}
+		if (neighbors.get(moveRight) != null){
+				array[2] = 3;
+			}
+		if (neighbors.get(moveLeft) != null){
+				array[3] = 4;
+			}
+		return array;
 	}
 	
 	

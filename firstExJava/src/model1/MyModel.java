@@ -2,6 +2,7 @@ package model1;
 
 import java.util.ArrayList;
 import java.util.Observable;
+
 import model1.SolutionManager;
 import model.Algorithm.Action;
 import model.Algorithm.SearchDomain;
@@ -40,8 +41,6 @@ public class MyModel extends Observable implements Model {
 
 	@Override
 	public void selectAlgorithm(String algorithmName) {
-		// TODO Auto-generated method stub
-
 		algorithm = algorithmsFactory.createAlgorithm(algorithmName);
 	}
 
@@ -55,7 +54,7 @@ public class MyModel extends Observable implements Model {
 		String problemDescription = domain.getProblemDescription();
 		this.solution = solutionManager.getSolution(problemDescription);
 		
-		//if there is no solution like this in the file
+		//if there is no such solution in the file
 		if (solution == null) {		
 			ArrayList<Action> actions = algorithm.search(domain);
 			solution = new Solution();
@@ -70,7 +69,6 @@ public class MyModel extends Observable implements Model {
 
 	@Override
 	public Solution getSolution() {
-		// TODO Auto-generated method stub
 		return solution;
 	}
 
@@ -78,5 +76,4 @@ public class MyModel extends Observable implements Model {
 	public void doTask() {
 		solveDomain();
 	}
-
 }

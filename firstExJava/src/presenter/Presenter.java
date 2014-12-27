@@ -9,6 +9,7 @@ import presenter.UserCommands.Command;
 import model1.Model;
 import model1.MyModel;
 import model1.Solution;
+import tasks.TaskRunnable;
 import view.MyConsoleView;
 import view.View;
 
@@ -18,14 +19,24 @@ public class Presenter implements Observer {
 	private View view;
 	private UserCommands commands;
 	private ArrayList<Model> models; // all running models
+	private static Thread t;
+
 	
+	public static Thread getT() {
+		return t;
+	}
+
+	public static void setT(Thread t) {
+		Presenter.t = t;
+	}
+
 	public Presenter(Model model, View view)
 	{
 		this.model = model;
 		this.view = view;
 		commands = new UserCommands();
 		models = new ArrayList<Model>();
-		models.add(model);
+	//	models.add(model);
 	}
 
 	@Override
@@ -40,11 +51,15 @@ public class Presenter implements Observer {
 			if (answer==2){   ////////////////need to add exception
 				System.out.println("please enter the number of the game you wish to get solution");
 				int index = in.nextInt();
-				if (((MyModel)(models.get(index))).getT().isAlive()){  //if the thread of the model the user asked for is alive
+				if (((MyModel)(models.get(index-1))).getT().isAlive()){  //if the thread of the model the user asked for is alive
 					System.out.println("there is no solution yet, please keep playing or wait");
 				}
+				else if (answer==3){
+					break;
+				}
 				else{
-						Solution solution = ((Model)observable).getSolution();
+						Solution solution = models.get(index-1).getSolution();
+					//Solution solution = ((Model)observable).getSolution();
 						view.displaySolution(solution);
 					}
 				}
@@ -81,7 +96,10 @@ public class Presenter implements Observer {
 		model.addObserver(presenter);
 		view.addObserver(presenter);
 		
-		view.start();
+		Presenter.setT(new Thread(new TaskRunnable(view)));
+		System.out.println("///////////////////////I/O Thread is alive////////////////////////");
+		//((MyConsoleView)view).doTask();
+		Presenter.t.start();
 	}
 	
 }

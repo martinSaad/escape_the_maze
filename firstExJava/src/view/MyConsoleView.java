@@ -10,7 +10,17 @@ import model1.Solution;
 public class MyConsoleView extends Observable implements View {
 
 	private String action;
+	private Thread t;
 	
+	
+	public Thread getT() {
+		return t;
+	}
+
+	public void setT(Thread t) {
+		this.t = t;
+	}
+
 	@Override
 	public void start() 
 	{
@@ -82,6 +92,12 @@ public class MyConsoleView extends Observable implements View {
 	@Override
 	public String getUserAction() {		
 		return action;
+	}
+
+	@Override
+	public void doTask() {
+		start();
+		
 	}
 
 }

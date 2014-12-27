@@ -11,6 +11,15 @@ public class MazeState extends State{
 	protected int x;
 	protected int y;
 	
+	public MazeState(){
+		
+	}
+	
+	public MazeState(int x, int y){
+		this.x = x;
+		this.y = y;
+	}
+	
 	
 	public int getX() {
 		return x;
