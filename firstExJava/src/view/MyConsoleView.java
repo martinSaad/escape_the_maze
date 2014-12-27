@@ -18,8 +18,7 @@ public class MyConsoleView extends Observable implements View {
 		//action="";
 		Scanner scanner = new Scanner(System.in);
 		int tempCommands = 3;
-		while(tempCommands >=1)
-		{
+		while(tempCommands >=1){
 			if(tempCommands == 3){
 			System.out.print("Enter The Game you want to play: ");
 			action = scanner.nextLine();
@@ -71,13 +70,14 @@ public class MyConsoleView extends Observable implements View {
 
 	@Override
 	public void displaySolution(Solution solution) {
-		if(solution.getActions() == null)
-			System.out.println("There is no movements from your start state to your goal state. please play again");
-		else {	
-			for(Action a : solution.getActions())
-			System.out.println(a);
-		}
+			if(solution.getActions() == null)
+				System.out.println("There is no movements from your start state to your goal state. please play again");
+			else {	
+				for(Action a : solution.getActions())
+					System.out.println(a);
+			}		
 	}
+	
 
 	@Override
 	public String getUserAction() {		

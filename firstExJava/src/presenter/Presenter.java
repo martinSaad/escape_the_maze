@@ -32,17 +32,23 @@ public class Presenter implements Observer {
 	public void update(Observable observable, Object arg1) {
 		if (observable instanceof Model)
 		{
-			System.out.println("do you want the solution? y or n");
+			int answer = 2;
+			do{
+			System.out.println("do you want keep playing or get solution? 1 for keep playing, 2 for solution");
 			Scanner in = new Scanner (System.in);
-			String answer = in.nextLine();
-			if (answer.equals("y")){
-				if (!((MyModel)model).getT().isAlive()){
-					Solution solution = ((Model)observable).getSolution();
-					view.displaySolution(solution);	
+			answer = in.nextInt();
+			if (answer==2){   ////////////////need to add exception
+				System.out.println("please enter the number of the game you wish to get solution");
+				int index = in.nextInt();
+				if (((MyModel)(models.get(index))).getT().isAlive()){  //if the thread of the model the user asked for is alive
+					System.out.println("there is no solution yet, please keep playing or wait");
 				}
-				else
-					System.out.println("Thread is still alive");
-			}
+				else{
+						Solution solution = ((Model)observable).getSolution();
+						view.displaySolution(solution);
+					}
+				}
+			}while(answer==2);
 		}
 		else if (observable == view)
 		{

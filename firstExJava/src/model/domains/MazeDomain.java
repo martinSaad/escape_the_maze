@@ -225,7 +225,14 @@ public class MazeDomain implements SearchDomain{
 	
 	public void randomBoardValues() // '0' = wall, '1' = free. I decide calculate how many walls as the average of rows+columns
 	{
-		Random rn = new Random();
+		Random random = new Random();
+		for (int i=1; i<rows-1; i++){
+			for (int j=1; j<columns-1; j++){
+					matrix[i][j] = random.nextInt(2); //generate random number 0 or 1
+			}
+		}
+		
+		/*	Random rn = new Random();
 		int counterZeros=0;
 		int avg = (this.rows+this.columns)/2;
 		for(int i=0; i<this.rows; i++)
@@ -241,6 +248,7 @@ public class MazeDomain implements SearchDomain{
 				else this.matrix[i][j] = 1;
 			}
 		}
+		*/
 	}
 
 	@Override

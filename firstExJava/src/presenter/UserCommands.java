@@ -16,7 +16,7 @@ public class UserCommands {
 		commands.put("Domain", new SelectDomainCommand());
 		commands.put("Algorithm", new SelectAlgorithmCommand());
 //		commands.put("Solve", new SolveDomainCommand());
-		commands.put("SolveDomainInThread", new SolveDomainInThread());
+		commands.put("Solve", new SolveDomainInThread());
 		
 	}
 	
@@ -74,7 +74,8 @@ public class UserCommands {
 		@Override
 		public Model doCommand(Model model, String args) {
 			((MyModel)model).setT(new Thread(new TaskRunnable(model)));
-			((MyModel)model).getT().start();
+			((MyModel)model).doTask();
+			//((MyModel)model).getT().start();
 			return model;
 		}
 		

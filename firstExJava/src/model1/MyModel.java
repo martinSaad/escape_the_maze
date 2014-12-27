@@ -16,7 +16,7 @@ public class MyModel extends Observable implements Model {
 	private Solution solution;
 	private SolutionManager solutionManager;
 	private Thread t;
-	
+		
 	
 	public Thread getT() {
 		return t;
@@ -44,6 +44,11 @@ public class MyModel extends Observable implements Model {
 
 		algorithm = algorithmsFactory.createAlgorithm(algorithmName);
 	}
+
+	public SearchDomain getDomain() {
+		return domain;
+	}
+	
 
 	@Override
 	public void solveDomain() {		
