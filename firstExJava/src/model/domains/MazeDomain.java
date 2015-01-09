@@ -13,7 +13,7 @@ import model.Algorithm.State;
 public class MazeDomain implements SearchDomain{
 
 
-	MazeState start,goal;
+	public MazeState start,goal;
 	public int rows;
 	public int columns;
 	public int [][] matrix; 
