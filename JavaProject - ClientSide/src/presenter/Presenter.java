@@ -45,6 +45,7 @@ public class Presenter implements Observer {
 			
 			if (action.equals("exit")){
 				((MyModel)models.get(models.size()-1)).getClient().stopSolving(); //accessing the last model in "models" and stopping the solving
+				return;
 			}
 			String[] arr = action.split(" ");
 			

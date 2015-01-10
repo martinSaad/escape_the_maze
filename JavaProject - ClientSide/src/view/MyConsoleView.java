@@ -100,6 +100,7 @@ public class MyConsoleView extends Observable implements View {
 		if (action.equals("exit")){
 			this.setChanged();
 			this.notifyObservers(); //in this situation we would like to stop the solving
+			System.out.println("game over");
 		}
 		
 		

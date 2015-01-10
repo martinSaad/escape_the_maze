@@ -7,7 +7,7 @@ import java.io.FileNotFoundException;
 import tasks.Task;
 
 public class HandleProperties {
-private static final String FILE_NAME = "C:/Users/Martin Saad/Desktop/Java Workspace/GenerateProperties/ClientProperties.xml";
+private static final String FILE_NAME = "C:/Users/Martin Saad/git/GenerateProperties/ClientProperties.xml";
 	
 	public static ClientProperties readProperties() {
 		XMLDecoder decoder = null;

@@ -35,8 +35,8 @@ public class ClientHandler implements Task {
 			Model model = new MyModel(problem);
 			model.selectDomain(problem.getDomainName());
 			model.selectAlgorithm(problem.getAlgorithmName());
-			//model.doTask();
-			model.solveDomain();
+			model.doTask();
+			//model.solveDomain();
 			
 			//if the client asked for exit in the middle of solving
 			String stopSolving = (String)in.readObject();
@@ -47,7 +47,7 @@ public class ClientHandler implements Task {
 				out.writeObject(solution);
 				return;
 			}
-			
+		
 			Solution solution = model.getSolution();
 			System.out.println("Found solution: " + solution.getProblemDescription());
 		

@@ -5,7 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 public class HandleProperties {
-	private static final String FILE_NAME = "C:/Users/Martin Saad/Desktop/Java Workspace/GenerateProperties/ServerProperties.xml";
+	private static final String FILE_NAME = "C:/Users/Martin Saad/git/GenerateProperties/ServerProperties.xml";
 	
 	public static ServerProperties readProperties() {
 		XMLDecoder decoder = null;
