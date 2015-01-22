@@ -4,16 +4,25 @@ import java.beans.XMLDecoder;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
-import tasks.Task;
-
+/**
+ * The class handle the client properties.
+ */
 public class HandleProperties {
-private static final String FILE_NAME = "C:/Users/Martin Saad/git/GenerateProperties/ClientProperties.xml";
+	private static String fileName;
+	//private static final String FILE_NAME = "/users/tomeraronovsky/Desktop/martinWorkspace/GenerateProperties/ClientProperties.xml";
 	
+	public static void setFileName(String fileName2) {
+		fileName = fileName2;
+	}
+	/**
+	 * The method reads the client properties (port number and server's IP) for an XML file.
+	 * @return ServerProperties
+	 */
 	public static ClientProperties readProperties() {
 		XMLDecoder decoder = null;
 		
 		try {
-			decoder = new XMLDecoder(new FileInputStream(FILE_NAME));
+			decoder = new XMLDecoder(new FileInputStream(fileName));
 			ClientProperties properties = (ClientProperties)decoder.readObject();
 			return properties;
 			

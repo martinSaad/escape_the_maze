@@ -2,8 +2,10 @@ package view;
 
 import java.util.Observable;
 import java.util.Scanner;
+
 import model1.SolutionManager;
 import model.algorithm.Action;
+import model.algorithm.State;
 import model1.Solution;
 
 public class MyConsoleView extends Observable implements View {
@@ -12,6 +14,7 @@ public class MyConsoleView extends Observable implements View {
 	private static boolean firstTimeStart = false;
 	private static boolean exit = false;
 	private String startState, goalState;
+	private int flag =0;
 	
 	
 	public static boolean isExit() {
@@ -49,8 +52,10 @@ public class MyConsoleView extends Observable implements View {
 		
 		if (action.equals("Domain NumbersGame"))
 			domainNumbersGame();
-		else if (action.equals("Domain Maze"))
+		else if (action.equals("Domain Maze")){
 			domainMaze();
+			flag=1;
+		}
 		else if(action.equals("exit")){
 			//stopSolving();
 			scanner.close();
@@ -76,6 +81,13 @@ public class MyConsoleView extends Observable implements View {
 		else{
 			scanner.close();
 			throw new Exception("Wrong");  //Throw Exception if user press wrong key
+		}
+		//if it's maze game
+		if (flag==1){
+			System.out.println("please enter Display");
+			action = scanner.nextLine();
+			this.setChanged();
+			this.notifyObservers();
 		}
 	
 		
@@ -133,13 +145,7 @@ public class MyConsoleView extends Observable implements View {
 		this.setChanged();
 		this.notifyObservers();
 	}
-	
 
-	@Override
-	public void displayCurrentState() {
-		// TODO Auto-generated method stub
-
-	}
 
 	@Override
 	public void displaySolution(Solution solution) {
@@ -176,5 +182,17 @@ public class MyConsoleView extends Observable implements View {
 	public String getProblemDescreption() {
 		return startState+" "+goalState;
 	}
+
+
+
+	@Override
+	public void displayCurrentState(State[][] matrix) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
 
 }

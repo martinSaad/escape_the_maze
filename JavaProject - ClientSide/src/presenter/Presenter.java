@@ -3,15 +3,17 @@ package presenter;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Scanner;
-
-import presenter.UserCommands.Command;
 import model1.Model;
 import model1.MyModel;
 import model1.Solution;
-import view.MyConsoleView;
+import presenter.UserCommands.Command;
+import view.SelectGameWindow;
 import view.View;
 
+/**
+ * The main part of the MVP model. Receives notifications form the model/view and handle it.<p>
+ * The class have a main method, used to run a client.
+ */
 public class Presenter implements Observer {
 	
 	private Model model; // the current model
@@ -19,8 +21,9 @@ public class Presenter implements Observer {
 	private UserCommands commands;
 	private ArrayList<Model> models; // all running models
 	
-	public Presenter(Model model, View view)
-	{
+	//------- Constructors, Getters & Setters -------//
+	
+	public Presenter(Model model, View view){
 		this.model = model;
 		this.view = view;
 		commands = new UserCommands();
@@ -28,26 +31,34 @@ public class Presenter implements Observer {
 		models.add(model);
 	}
 
+	public Presenter(MyModel model2) {
+		this(model2, null);
+	}
+
+	
+	//------- Override Functions -------//
 	@Override
 	public void update(Observable observable, Object arg1) {
 		if (observable instanceof Model)
 		{	
+			if (((MyModel)observable).getProblem().getDomainName().equals("Maze")){
+				view.displayCurrentState(((MyModel)model).getMatrix());
+			}
 			Solution solution = ((Model)observable).getSolution();
-			if (solution!=null)
-				view.displaySolution(solution);
-			else
-				System.out.println("stoped solving solution");
-	
+			view.displaySolution(solution);
 		}
+		
+		else if(observable instanceof SelectGameWindow)
+		{
+			view = (View) arg1;
+			((Observable) view).addObserver(this);
+		}
+		
 		else if (observable instanceof View)
 		{
-			String action = view.getUserAction();
+			String action = ((View)observable).getUserAction();
 			
-			if (action.equals("exit")){
-				((MyModel)models.get(models.size()-1)).getClient().stopSolving(); //accessing the last model in "models" and stopping the solving
-				return;
-			}
-			String[] arr = action.split(" ");
+			String[] arr = action.split(" "); //making array of strings and split the words by "space" - for example: Domain NumbersGame>> arr[0] = Domain, arr[1] = NumbersGame
 			
 			String problemDescreption = view.getProblemDescreption();
 			
@@ -70,20 +81,20 @@ public class Presenter implements Observer {
 		}
 	}
 	
+	
+	
+	//------- Main Function -------//
 	public static void main(String[] args) {
-		MyModel model = new MyModel();
-		MyConsoleView view = new MyConsoleView();
-		Presenter presenter = new Presenter(model, view);
 		
+		
+		MyModel model = new MyModel();
+		SelectGameWindow view = new SelectGameWindow(600, 400, "Welcome to Our Project");
+		Presenter presenter = new Presenter(model);
 		model.addObserver(presenter);
 		view.addObserver(presenter);
-		
-		try {
-			view.start();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		view.run();
+
 	}
 	
-}
+	}
+//}

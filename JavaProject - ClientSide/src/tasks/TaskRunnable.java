@@ -1,5 +1,10 @@
 package tasks;
 
+/**
+ * Task running in a thread. Implements Runnable
+ *
+ */
+
 public class TaskRunnable implements Runnable {
 
 	private Task t;
