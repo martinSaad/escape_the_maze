@@ -2,15 +2,60 @@ package model.domains;
 
 import model.algorithm.State;
 
+import java.io.Serializable;
 import java.lang.Math;
 
-public class MazeState extends State{
+/**
+ * A state in maze is represented by x,y (location) and 4 booleans (if there is a wall)
+ *
+ */
+public class MazeState extends State implements Serializable{
 
 	protected int x,y,ok,wall;
 	private boolean upWall,downWall,leftWall,rightWall;
 	private char[] tmp;
-	public String lt;
 	
+	//-----Constructs------
+	public MazeState(){
+		this.upWall = true;
+		this.downWall = true;
+		this.rightWall = true;
+		this.leftWall = true;
+		char[] tmp = new char[4]; 
+		tmp[0] = 'x';
+		tmp[1] = 'x';
+		tmp[2] = 'x';
+		tmp[3] = 'x';
+		this.tmp = tmp;
+	}
+	
+	public MazeState(MazeState state){
+		this.x = state.getX();
+		this.y = state.getY();
+		this.wall = state.getWall();
+		this.ok = state.getOk();
+		this.upWall = state.isUpWall();
+		this.downWall = state.isDownWall();
+		this.leftWall = state.isLeftWall();
+		this.rightWall = state.isRightWall();
+		this.tmp = new char[4]; 
+		for (int i=0; i<4; i++)
+			this.tmp[i] = state.getTmp()[i];
+	}
+	
+	public MazeState(int x, int y){
+		this.x = x;
+		this.y = y;
+		this.upWall = true;
+		this.downWall = true;
+		this.rightWall = true;
+		this.leftWall = true;
+		char[] tmp = {'x','x','x','x'};
+		this.tmp = tmp;
+	}
+	
+	
+	//----getters and setters-------
 	public boolean isUpWall() {
 		return upWall;
 	}
@@ -57,40 +102,7 @@ public class MazeState extends State{
 
 	public void setWall(int wall) {
 		this.wall = wall;
-	}
-
-	public MazeState(){
-		this.upWall = true;
-		this.downWall = true;
-		this.rightWall = true;
-		this.leftWall = true;
-		char[] tmp = {'x','x','x','x'};
-		this.tmp = tmp;
-	}
-	
-	public MazeState(MazeState state){
-		this.x = state.getX();
-		this.y = state.getY();
-		this.wall = state.getWall();
-		this.ok = state.getOk();
-		this.upWall = state.isUpWall();
-		this.downWall = state.isDownWall();
-		this.leftWall = state.isLeftWall();
-		this.rightWall = state.isRightWall();
-		this.tmp = state.getTmp();
-	}
-	
-	public MazeState(int x, int y){
-		this.x = x;
-		this.y = y;
-		this.upWall = true;
-		this.downWall = true;
-		this.rightWall = true;
-		this.leftWall = true;
-		char[] tmp = {'x','x','x','x'};
-		this.tmp = tmp;
-	}
-	
+	}	
 	
 	public char[] getTmp() {
 		return tmp;
@@ -144,14 +156,6 @@ public class MazeState extends State{
 			return true;
 		return false;
 	}
-	
-
-	/*@Override
-	public int compareTo(State o) {
-		// TODO Auto-generated method stub
-		return 0;
-	}*/
-
 	
 
 }

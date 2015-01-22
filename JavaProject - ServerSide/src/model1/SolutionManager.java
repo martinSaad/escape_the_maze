@@ -12,11 +12,22 @@ import java.util.HashMap;
 import model1.Solution;
 import model1.SolutionManager;
 
+
+/**
+ * The class maintains HashMap of solution.<p>
+ * Every time the class is created it loads all the solution form the file to the HashMap. Every new solution is saved in the file.<p><p>
+ * The class is written in Singleton pattern.
+ */
 public class SolutionManager {
 	private HashMap<String, Solution> solutionsMap;
 	private static SolutionManager instance = null;
 	private static final String FILE_NAME = "resources/solutions.dat";
 	
+	
+	/**
+	 * Default constructor. Loads all the solutions from the file to the HashMap.
+	 */
+
 	protected SolutionManager(){	
 		solutionsMap = new HashMap<String, Solution>();
 		File f = new File("resources/solutions.dat");
@@ -39,6 +50,10 @@ public class SolutionManager {
 		}
 	}
 	
+	/**
+	 * The method is used to create an instance of SolutionManager
+	 * @return SolutionManager
+	 */
 	public static SolutionManager getInstance() {
 		if (instance == null) {
 			instance = new SolutionManager();			
@@ -54,6 +69,9 @@ public class SolutionManager {
 		return solutionsMap.get(problemDescription);
 	}
 	
+	/**
+	 * Save the solution in the file.
+	 */
 	public void saveSolutionsInFile() {
 		FileOutputStream out = null;
 		ObjectOutputStream oos = null;

@@ -2,7 +2,10 @@ package model1;
 
 import java.io.Serializable;
 
-import model.algorithm.SearchDomain;
+/**
+ * Problem implements Serializable.<p> 
+ * The class represents a problem being passed between the client and the server.<p> *
+ */
 
 public class Problem implements Serializable {
 	private String domainName;
@@ -10,6 +13,7 @@ public class Problem implements Serializable {
 	private String algorithmName;
 	
 	
+	// ----- Getters & Setters ----- //
 	public String getDomainName() {
 		return domainName;
 	}

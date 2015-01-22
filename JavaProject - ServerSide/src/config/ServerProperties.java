@@ -1,6 +1,10 @@
 package config;
 import java.io.Serializable;
 
+/**
+ * The class defines the server properties (port number and number of clients). Implements Serializable.
+ */
+
 public class ServerProperties implements Serializable {
 	private int port;
 	private int numOfClients;

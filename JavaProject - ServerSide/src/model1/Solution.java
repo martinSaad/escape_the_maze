@@ -5,7 +5,11 @@ import java.util.ArrayList;
 
 import model.algorithm.Action;
 
-
+/**
+ * The class represents the solution of the domain.<p>
+ * Defined by ArrayList of actions and a String problem descripton.
+ *
+ */
 public class Solution implements Serializable{
 	private ArrayList<Action> actions;
 	private String problemDescription;

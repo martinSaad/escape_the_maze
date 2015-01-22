@@ -6,6 +6,9 @@ import java.util.PriorityQueue;
 import model.algorithm.Searcher;
 import model.algorithm.State;
 
+/**
+ * Abstract class - all common things for a type of searcher.<p> Implements Searcher *
+ */
 public abstract class CommonSearcher implements Searcher{
 // all the common things for A* and BFS
 	
@@ -18,7 +21,11 @@ public abstract class CommonSearcher implements Searcher{
 			this.exit = exit;
 	}
 	
-	// call "pathToGoal" when we are in the goal state. the function will calculate all the moves from the start to goal
+	/**
+	 * The function will calculate all the moves from the start to goal
+	 * @param state
+	 * @return ArrayList<Action>
+	 */
 	public ArrayList<Action> pathToGoal(State state)
 	{
 		ArrayList<Action> newAction = new ArrayList<Action>();

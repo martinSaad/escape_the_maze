@@ -2,10 +2,23 @@ package model.domains;
 
 import model.algorithm.State;
 
+/**
+ * A state in the game NumbersGame is represented by a long number.
+ *
+ */
 public class NumbersGameState extends State {
 
 	protected long number;
 	protected boolean flag;
+	
+	public NumbersGameState() {
+	}
+	
+	public NumbersGameState(long num) {
+		this.number = num;
+	}
+	
+	//-----getters and setters--------
 	
 	public boolean isFlag() {
 		return flag;
@@ -13,23 +26,14 @@ public class NumbersGameState extends State {
 	public void setFlag(boolean flag) {
 		this.flag = flag;
 	}
-	public NumbersGameState() {
-		// TODO Auto-generated constructor stub
-	}
-	public NumbersGameState(long num) {
-		this.number = num;
-	}
+	
 	public long getNumber() {
 		return number;
 	}
 	public void setNumber(long number) {
 		this.number = number;
 	}
-	
-	private NumbersGameState NumbersGameState(long number2) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 	
 	
 	@Override
@@ -47,7 +51,6 @@ public class NumbersGameState extends State {
 		
 		return sum;
 	}
-	
 	
 	@Override
 	public boolean equals(Object o){ 

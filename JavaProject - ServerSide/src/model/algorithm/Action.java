@@ -2,6 +2,10 @@ package model.algorithm;
 
 import java.io.Serializable;
 
+/**
+ * The class represent an action needed to be done.<p>
+ * Implements Serializable.
+ */
 public class Action implements Serializable{
 	
 	String description;

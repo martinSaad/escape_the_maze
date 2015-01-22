@@ -9,6 +9,11 @@ import model.algorithm.Action;
 import model.algorithm.SearchDomain;
 import model.algorithm.State;
 
+/**
+ * Maze Domain is a game where the start state is the location (1,1) and the end state is (n,n).<p>
+ * The purpose is to get from the start to the end in the shortest path.
+ *
+ */
 public class MazeDomain implements SearchDomain {
 
 	public MazeState start,goal;
@@ -18,6 +23,21 @@ public class MazeDomain implements SearchDomain {
 	public Action down=new Action("down");
 	public Action left=new Action("left");
 	public Action right=new Action("right");
+	
+	public MazeDomain(String rows, String columns){
+		setBoardRows(Integer.parseInt(rows)+2);
+		setBoardColumns(Integer.parseInt(columns)+2); 
+		start = new MazeState(1,1);
+		goal = new MazeState(boardRows-2, boardColumns-2);
+		generateMaze();
+	}
+	
+	public MazeDomain()
+	{
+		generateMaze();
+	}
+	
+	//-------getters and setters----------
 	
 	public int getBoardRows() {
 		return boardRows;
@@ -34,21 +54,8 @@ public class MazeDomain implements SearchDomain {
 	
 	public int getBoardColumns() {
 		return boardColumns;
-	}
-	
-	public MazeDomain()
-	{
-		generateMaze();
-	}
-	
-	public MazeDomain(String rows, String columns)
-	{
-		setBoardRows(Integer.parseInt(rows)+2);
-		setBoardColumns(Integer.parseInt(columns)+2); 
-		start = new MazeState(1,1);
-		goal = new MazeState(boardRows-2, boardColumns-2);
-		generateMaze();
-	}
+	}	
+
 	
 	public MazeState[][] getMatrix() {
 		return matrix;
@@ -58,19 +65,15 @@ public class MazeDomain implements SearchDomain {
 		this.matrix[cell.getX()][cell.getY()] = cell;
 	}
 	
-	public String[][] getPrintedMatrix(){
-		String[][] printedMatrix;
-		printedMatrix = new String[getBoardRows()-2][getBoardColumns()-2];
-		for(int i=0;i<this.matrix.length-2;i++){
-			printedMatrix[i] = new String[getBoardColumns()-2];
-		
-			for(int j=1;j<this.matrix[i].length-1;j++){
-				printedMatrix[i][j-1] = "("+this.matrix[i+1][j].getOk()+","+Arrays.toString(this.matrix[i+1][j].getTmp())+")";
-			}
-		}
-			
-		return printedMatrix;
+	public State getStartState() {
+		return start;
 	}
+		
+
+	public State getGoalState() {
+		return goal;
+	}
+	
 	
 	public void printMaze(){
 		for(int i=1;i<matrix.length-1;i++){
@@ -81,18 +84,8 @@ public class MazeDomain implements SearchDomain {
 			System.out.println("");
 		}
 	}
-	public State getStartState() {
-		return start;
-	}
-		
-
-	public State getGoalState() {
-		return goal;
-	}
-
-
 	
-	//this method is for the search algorithm
+
 	public HashMap<Action, State> getAllPossibleMoves(State state){
 		HashMap<Action,State> allNeighbours = new HashMap<Action, State>();
 		
@@ -121,6 +114,12 @@ public class MazeDomain implements SearchDomain {
 	
 	
 
+	/**
+	 * Given a state the method finds all possible moves where is a wall.<p>
+	 * Used for generation of the Maze.
+	 * @param state
+	 * @return HashMap<Action, State>
+	 */
 	public HashMap<Action, State> getAllPossibleMovesByWalls(State state){
 		
 		HashMap<Action, State> allNeighbors = new HashMap<Action, State>();
@@ -149,7 +148,9 @@ public class MazeDomain implements SearchDomain {
 	}
 	
 
-	//initializing new maze, round walls with '-1' and the grids with '0'
+	/**
+	 * Initializing new maze, round walls with '-1' and the grids with '0'
+	 */
 	public void initializeMaze(){
 		matrix = new MazeState[getBoardRows()][getBoardColumns()]; 
 		for(int i=0;i<getBoardRows();i++)
@@ -184,11 +185,12 @@ public class MazeDomain implements SearchDomain {
 	}
 	
 			
-	/* generate a perfect maze using DFS with the next algorithm:
-	 * 1) Start at a random cell in the grid.  
-	 * 2) Look for a random neighbor cell you haven't been to yet. 
-	 * 3) If you find one, move there, knocking down the wall between the cells. If you don't find one, back up to the previous cell.  
-	 * 4) Repeat steps 2 and 3 until you've been to every cell in the grid.
+	/**
+	 * generate a perfect maze using DFS with the next algorithm:<p>
+	 * 1) Start at a random cell in the grid.  <p>
+	 * 2) Look for a random neighbor cell you haven't been to yet.<p> 
+	 * 3) If you find one, move there, knocking down the wall between the cells. If you don't find one, back up to the previous cell.<p>  
+	 * 4) Repeat steps 2 and 3 until you've been to every cell in the grid.<p>
 	 */
 	public void generateMaze(){
 		initializeMaze();
@@ -270,7 +272,11 @@ public class MazeDomain implements SearchDomain {
 		}
 	}
 	
-	//giving an array of all possible moves
+	/**
+	 * Giving an array of all possible moves.
+	 * @param neighbors
+	 * @return int[]
+	 */
 	public int[] randomAction(HashMap<Action, State> neighbors){
 		int[] array = new int[4];
 		if (neighbors.get(up) != null){

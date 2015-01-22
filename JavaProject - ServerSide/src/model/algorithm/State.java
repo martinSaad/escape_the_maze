@@ -54,7 +54,12 @@ abstract public class State implements Comparable<State>{
 			return state.equals(((State)o).getPrice());
 		}
 		
-		// state's evaluation with respect to the goal - will be the Heuristic function in A*
+		/**
+		 * State's evaluation with respect to the goal - will be the Heuristic function in A*
+		 * @param State goal
+		 * @return double
+		 */
+
 		public abstract double getEvaluation(State goal);
 		
 		@Override

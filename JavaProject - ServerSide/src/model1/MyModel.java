@@ -8,7 +8,12 @@ import model.algorithm.Action;
 import model.algorithm.CommonSearcher;
 import model.algorithm.SearchDomain;
 import model.algorithm.Searcher;
-import model.domains.NumbersGameDomain;
+import model.domains.MazeState;
+
+/**
+ * MyModel extends Observable and implements Model.<p>
+ * The class receives a problem from the client, solves it and send the solution back to the client. 
+ */
 
 public class MyModel extends Observable implements Model {
 	
@@ -22,6 +27,16 @@ public class MyModel extends Observable implements Model {
 	private SearchDomainFactory domainsFactory;
 	private boolean stopSolving;
 
+	
+	// ----- Constructors, Getters & Setters ----- //
+	public MyModel(Problem problem)
+	{
+		domainsFactory = new SearchDomainFactory();
+		algorithmsFactory = new SearchAlgorithmsFactory();
+		solutionManager = SolutionManager.getInstance();
+		this.problem = problem;
+		this.stopSolving = false;
+	}
 		
 	public Searcher getAlgorithm() {
 		return algorithm;
@@ -45,15 +60,9 @@ public class MyModel extends Observable implements Model {
 		return start[1];
 	}
 
-	public MyModel(Problem problem)
-	{
-		domainsFactory = new SearchDomainFactory();
-		algorithmsFactory = new SearchAlgorithmsFactory();
-		solutionManager = SolutionManager.getInstance();
-		this.problem = problem;
-		this.stopSolving = false;
-	}
+	
 
+	// ------ Override Functions ------ //
 	@Override
 	public void selectDomain(String domainName) {
 		domain = domainsFactory.createDomain(domainName, getStartState(), getgoalState());		
@@ -69,6 +78,7 @@ public class MyModel extends Observable implements Model {
 	@Override
 	public void solveDomain() {		
 		
+		//if there is a solution for this problem already, get it from the solution file
 		String problemDescription = problem.getDomainArgs();
 		this.solution = solutionManager.getSolution(problemDescription);
 		
@@ -76,6 +86,7 @@ public class MyModel extends Observable implements Model {
 		if (solution == null) {		
 			ArrayList<Action> actions = algorithm.search(domain);
 			
+			//if the client decided to exit the program
 			if (stopSolving == true){
 				((CommonSearcher)algorithm).setExit(true);
 				return;
@@ -107,9 +118,10 @@ public class MyModel extends Observable implements Model {
 	}
 
 	@Override
-	public String[][] getMatrix() {
-		return domain.getPrintedMatrix();
+	public MazeState[][] getMatrix() {
+		return domain.getMatrix();
 	}
+
 
 	
 }
